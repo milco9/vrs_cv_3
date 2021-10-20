@@ -75,7 +75,7 @@ int main(void)
   while (1)
   {
 	  pin_state=BUTTON_GET_STATE;
-	  get =edgeDetect(pin_state,20);
+	  get =edgeDetect(pin_state,150);
 	  if (get == 1){
 		  if (led==false){
 			  pom = true;
@@ -105,7 +105,7 @@ int main(void)
 enum EDGE_TYPE edgeDetect(uint8_t pin_state, uint8_t samples){
 	uint8_t off=0x8;
 	uint8_t on=0x0;
-if(prevPinstate == pin_state){
+if(prevPinstate == pin_state && pin_state == on){
 	add=add+1;
 }else {
 	add = 1;
