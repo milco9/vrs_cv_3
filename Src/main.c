@@ -67,8 +67,7 @@ int main(void)
     //Set no pull for GPIOB pin 4 (out)
     GPIOA_PUPDR_REG &= ~(1 << 8);
     GPIOA_PUPDR_REG &= ~(1 << 9);
-    int get ;
-    bool pom = false;
+    int get= none ;
     bool led = false;
     uint8_t pin_state;
 
@@ -78,25 +77,12 @@ int main(void)
 	  get =edgeDetect(pin_state,150);
 	  if (get == 1){
 		  if (led==false){
-			  pom = true;
+			  LED_ON;
+			  led=true;
 		  }else if (led==true){
-			  pom = false;
+			  LED_OFF;
+			  led=false;
 		  }
-	  }
-
-
-
-	  if(pom == true)
-	  {
-		  //LED ON
-		  LED_ON;
-		  led=true;
-	  }
-	  else if(pom ==false)
-	  {
-		  //LED OFF
-		  LED_OFF;
-		  led=false;
 	  }
   }
 
@@ -108,8 +94,12 @@ enum EDGE_TYPE edgeDetect(uint8_t pin_state, uint8_t samples){
 if(prevPinstate == pin_state && pin_state == on){
 	add=add+1;
 }else {
-	add = 1;
+	add = 0;
 }
+		if((add > samples)){
+			prevPinstate=pin_state;
+			return none;
+		}
 
 		if ((add == samples)&& pin_state == off){
 			prevPinstate=pin_state;
